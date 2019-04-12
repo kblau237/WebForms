@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WEBFORMSPLUSPLUSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bzFDT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" />
+          <Property Name="Position" Type="varchar" MaxLength="20" />
+          <Property Name="Office" Type="varchar" MaxLength="20" />
+          <Property Name="Age" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="Salary" Type="money" />
+        </EntityType>
+        <EntityType Name="bzSOD">
+          <Key>
+            <PropertyRef Name="SalesOrderDetailID" />
+          </Key>
+          <Property Name="SalesOrderID" Type="int" Nullable="false" />
+          <Property Name="SalesOrderDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarrierTrackingNumber" Type="nvarchar" MaxLength="25" />
+          <Property Name="OrderQty" Type="smallint" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="SpecialOfferID" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="money" Nullable="false" />
+          <Property Name="UnitPriceDiscount" Type="money" Nullable="false" />
+          <Property Name="LineTotal" Type="numeric" Precision="38" Scale="6" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="ForeignToNames" Type="int" />
+        </EntityType>
+        <Association Name="FK_bzSOD_bzFDT">
+          <End Role="bzFDT" Type="Self.bzFDT" Multiplicity="0..1" />
+          <End Role="bzSOD" Type="Self.bzSOD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bzFDT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bzSOD">
+              <PropertyRef Name="ForeignToNames" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetbzSOD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SalesOrderDetailId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="WEBFORMSPLUSPLUSModelStoreContainer">
+          <EntitySet Name="bzFDT" EntityType="Self.bzFDT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bzSOD" EntityType="Self.bzSOD" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_bzSOD_bzFDT" Association="Self.FK_bzSOD_bzFDT">
+            <End Role="bzFDT" EntitySet="bzFDT" />
+            <End Role="bzSOD" EntitySet="bzSOD" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WEBFORMSPLUSPLUSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bzFDT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Office" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="bzSODs" Relationship="Self.FK_bzSOD_bzFDT" FromRole="bzFDT" ToRole="bzSOD" />
+        </EntityType>
+        <EntityType Name="bzSOD">
+          <Key>
+            <PropertyRef Name="SalesOrderDetailID" />
+          </Key>
+          <Property Name="SalesOrderID" Type="Int32" Nullable="false" />
+          <Property Name="SalesOrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarrierTrackingNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="OrderQty" Type="Int16" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialOfferID" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="UnitPriceDiscount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="LineTotal" Type="Decimal" Precision="38" Scale="6" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ForeignToNames" Type="Int32" />
+          <NavigationProperty Name="bzFDT" Relationship="Self.FK_bzSOD_bzFDT" FromRole="bzSOD" ToRole="bzFDT" />
+        </EntityType>
+        <Association Name="FK_bzSOD_bzFDT">
+          <End Role="bzFDT" Type="Self.bzFDT" Multiplicity="0..1" />
+          <End Role="bzSOD" Type="Self.bzSOD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bzFDT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="bzSOD">
+              <PropertyRef Name="ForeignToNames" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bzFDTs" EntityType="Self.bzFDT" />
+          <EntitySet Name="bzSODs" EntityType="Self.bzSOD" />
+          <AssociationSet Name="FK_bzSOD_bzFDT" Association="Self.FK_bzSOD_bzFDT">
+            <End Role="bzFDT" EntitySet="bzFDTs" />
+            <End Role="bzSOD" EntitySet="bzSODs" />
+          </AssociationSet>
+          <FunctionImport Name="GetbzSOD" ReturnType="Collection(WEBFORMSPLUSPLUSModel.GetbzSOD_Result)">
+            <Parameter Name="SalesOrderDetailId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetbzSOD_Result">
+          <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
+          <Property Type="Int32" Name="SalesOrderDetailID" Nullable="false" />
+          <Property Type="String" Name="CarrierTrackingNumber" Nullable="true" MaxLength="25" />
+          <Property Type="Int16" Name="OrderQty" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="SpecialOfferID" Nullable="false" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="UnitPriceDiscount" Nullable="false" Precision="19" />
+          <Property Type="Guid" Name="rowguid" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="ForeignToNames" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WEBFORMSPLUSPLUSModelStoreContainer" CdmEntityContainer="MyEntities">
+          <EntitySetMapping Name="bzFDTs">
+            <EntityTypeMapping TypeName="WEBFORMSPLUSPLUSModel.bzFDT">
+              <MappingFragment StoreEntitySet="bzFDT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Office" ColumnName="Office" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bzSODs">
+            <EntityTypeMapping TypeName="WEBFORMSPLUSPLUSModel.bzSOD">
+              <MappingFragment StoreEntitySet="bzSOD">
+                <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
+                <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
+                <ScalarProperty Name="CarrierTrackingNumber" ColumnName="CarrierTrackingNumber" />
+                <ScalarProperty Name="OrderQty" ColumnName="OrderQty" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SpecialOfferID" ColumnName="SpecialOfferID" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="UnitPriceDiscount" ColumnName="UnitPriceDiscount" />
+                <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ForeignToNames" ColumnName="ForeignToNames" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetbzSOD" FunctionName="WEBFORMSPLUSPLUSModel.Store.GetbzSOD">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WEBFORMSPLUSPLUSModel.GetbzSOD_Result">
+                <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
+                <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
+                <ScalarProperty Name="CarrierTrackingNumber" ColumnName="CarrierTrackingNumber" />
+                <ScalarProperty Name="OrderQty" ColumnName="OrderQty" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SpecialOfferID" ColumnName="SpecialOfferID" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="UnitPriceDiscount" ColumnName="UnitPriceDiscount" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ForeignToNames" ColumnName="ForeignToNames" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
